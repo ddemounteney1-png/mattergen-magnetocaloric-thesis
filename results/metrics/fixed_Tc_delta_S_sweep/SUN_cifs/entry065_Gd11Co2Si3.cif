@@ -1,0 +1,42 @@
+# generated using pymatgen
+data_Gd11Co2Si3
+_symmetry_space_group_name_H-M   'P 1'
+_cell_length_a   4.37225997
+_cell_length_b   8.05113010
+_cell_length_c   12.45603292
+_cell_angle_alpha   100.34139064
+_cell_angle_beta   89.99430381
+_cell_angle_gamma   90.00451682
+_symmetry_Int_Tables_number   1
+_chemical_formula_structural   Gd11Co2Si3
+_chemical_formula_sum   'Gd11 Co2 Si3'
+_cell_volume   431.34998675
+_cell_formula_units_Z   1
+loop_
+ _symmetry_equiv_pos_site_id
+ _symmetry_equiv_pos_as_xyz
+  1  'x, y, z'
+loop_
+ _atom_site_type_symbol
+ _atom_site_label
+ _atom_site_symmetry_multiplicity
+ _atom_site_fract_x
+ _atom_site_fract_y
+ _atom_site_fract_z
+ _atom_site_occupancy
+  Gd  Gd0  1  0.50619862  0.91801359  0.80867645  1.0
+  Gd  Gd1  1  0.50678088  0.84607978  0.08852550  1.0
+  Gd  Gd2  1  0.50616446  0.50818948  0.65288762  1.0
+  Gd  Gd3  1  0.50644534  0.28436887  0.22298350  1.0
+  Co  Co4  1  0.50675971  0.66917086  0.29579197  1.0
+  Gd  Gd5  1  0.00614876  0.21109520  0.98078085  1.0
+  Gd  Gd6  1  0.00622728  0.48415265  0.42881931  1.0
+  Gd  Gd7  1  0.00645123  0.98801417  0.32416676  1.0
+  Gd  Gd8  1  0.00674697  0.58097910  0.17019330  1.0
+  Si  Si9  1  0.50630553  0.29758570  0.82794417  1.0
+  Gd  Gd10  1  0.50617795  0.84329719  0.50664840  1.0
+  Gd  Gd11  1  0.00616584  0.15806997  0.65117148  1.0
+  Si  Si12  1  0.00604500  0.76466654  0.65742287  1.0
+  Gd  Gd13  1  0.00634341  0.57683572  0.88567421  1.0
+  Co  Co14  1  0.50682302  0.48109709  0.03229747  1.0
+  Si  Si15  1  0.50617202  0.20954205  0.46697177  1.0

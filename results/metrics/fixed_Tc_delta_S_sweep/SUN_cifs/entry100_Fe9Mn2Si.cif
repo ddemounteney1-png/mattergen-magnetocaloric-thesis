@@ -1,0 +1,38 @@
+# generated using pymatgen
+data_Mn2Fe9Si
+_symmetry_space_group_name_H-M   'P 1'
+_cell_length_a   3.97902860
+_cell_length_b   4.87887940
+_cell_length_c   7.32468774
+_cell_angle_alpha   109.46499512
+_cell_angle_beta   89.99990924
+_cell_angle_gamma   90.00065627
+_symmetry_Int_Tables_number   1
+_chemical_formula_structural   Mn2Fe9Si
+_chemical_formula_sum   'Mn2 Fe9 Si1'
+_cell_volume   134.06847747
+_cell_formula_units_Z   1
+loop_
+ _symmetry_equiv_pos_site_id
+ _symmetry_equiv_pos_as_xyz
+  1  'x, y, z'
+loop_
+ _atom_site_type_symbol
+ _atom_site_label
+ _atom_site_symmetry_multiplicity
+ _atom_site_fract_x
+ _atom_site_fract_y
+ _atom_site_fract_z
+ _atom_site_occupancy
+  Fe  Fe0  1  0.73126503  0.21184537  0.26607721  1.0
+  Fe  Fe1  1  0.23129857  0.45371536  0.76315397  1.0
+  Fe  Fe2  1  0.23129059  0.63003729  0.43554670  1.0
+  Fe  Fe3  1  0.23132192  0.12590404  0.43068472  1.0
+  Fe  Fe4  1  0.73130008  0.54458031  0.59990194  1.0
+  Fe  Fe5  1  0.23135215  0.95961399  0.76738824  1.0
+  Fe  Fe6  1  0.73129247  0.37817159  0.93320623  1.0
+  Fe  Fe7  1  0.23126894  0.30223518  0.10296682  1.0
+  Mn  Mn8  1  0.73140576  0.71325705  0.26892813  1.0
+  Fe  Fe9  1  0.23134469  0.79648079  0.09850614  1.0
+  Mn  Mn10  1  0.73148520  0.04354803  0.59734486  1.0
+  Si  Si11  1  0.73128251  0.87808191  0.93293548  1.0

@@ -1,0 +1,62 @@
+{
+    "avg_energy_above_hull_per_atom": {
+        "value": 0.341365477068678,
+        "description": "Average energy above hull per atom (eV/atom) of structures in sampled data."
+    },
+    "avg_rmsd_from_relaxation": {
+        "value": 0.13769547720147088,
+        "description": "root mean square displacements of atoms (Angstrom) from initial to final DFT relaxation steps in sampled data."
+    },
+    "frac_novel_unique_stable_structures": {
+        "value": 0.17307692307692307,
+        "description": "Fraction of novel unique stable structures in sampled data within 0.1 (eV/atom) above convex hull of TRI2024correction."
+    },
+    "frac_stable_structures": {
+        "value": 0.3798076923076923,
+        "description": "Fraction of stable structures in sampled data within 0.1 (eV/atom) above convex hull of TRI2024correction."
+    },
+    "frac_successful_jobs": {
+        "value": 1.0,
+        "description": "Fraction of structures whose jobs ran successfully."
+    },
+    "avg_comp_validity": {
+        "value": 0.8798076923076923,
+        "description": "Average composition validity (according to smact) of structures in sampled data."
+    },
+    "avg_structure_comp_validity": {
+        "value": 0.8798076923076923,
+        "description": "Average number of structures in sampled data that are both valid structures and have a valid smact compositions."
+    },
+    "avg_structure_validity": {
+        "value": 1.0,
+        "description": "Average structural validity of structures in sampled data. Any atom-atom distances less than 0.5 Angstroms or a volume less than 0.1 Angstrom**3 are considered invalid ."
+    },
+    "frac_novel_structures": {
+        "value": 0.7067307692307693,
+        "description": "Fraction of novel structures in sampled data."
+    },
+    "frac_novel_systems": {
+        "value": 0.15865384615384615,
+        "description": "Fraction of distinct chemical systems in sampled data and not in TRI2024correction."
+    },
+    "frac_novel_unique_structures": {
+        "value": 0.7019230769230769,
+        "description": "Fraction of novel unique structures in sampled data."
+    },
+    "frac_unique_structures": {
+        "value": 0.9519230769230769,
+        "description": "Fraction of unique structures in sampled data."
+    },
+    "frac_unique_systems": {
+        "value": 0.6971153846153846,
+        "description": "Fraction of structures in sampled data that have a unique chemical system within this set."
+    },
+    "precision": {
+        "value": 0.2932692307692308,
+        "description": "Precision of structures in sampled data compared with TRI2024correction. This is the fraction of structures in sampled data that have a matching structure in TRI2024correction."
+    },
+    "recall": {
+        "value": 0.00014775466106853807,
+        "description": "Recall of structures in sampled data compared with structures in TRI2024correction. This is the fraction of structures in sampled data that have a matching structure in TRI2024correction."
+    }
+}

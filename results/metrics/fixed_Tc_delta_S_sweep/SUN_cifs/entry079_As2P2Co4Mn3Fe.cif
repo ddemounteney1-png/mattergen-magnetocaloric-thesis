@@ -1,0 +1,38 @@
+# generated using pymatgen
+data_Mn3FeCo4(AsP)2
+_symmetry_space_group_name_H-M   'P 1'
+_cell_length_a   3.58799668
+_cell_length_b   5.98660126
+_cell_length_c   6.74711443
+_cell_angle_alpha   89.31073540
+_cell_angle_beta   90.00224140
+_cell_angle_gamma   89.99247021
+_symmetry_Int_Tables_number   1
+_chemical_formula_structural   Mn3FeCo4(AsP)2
+_chemical_formula_sum   'Mn3 Fe1 Co4 As2 P2'
+_cell_volume   144.91689163
+_cell_formula_units_Z   1
+loop_
+ _symmetry_equiv_pos_site_id
+ _symmetry_equiv_pos_as_xyz
+  1  'x, y, z'
+loop_
+ _atom_site_type_symbol
+ _atom_site_label
+ _atom_site_symmetry_multiplicity
+ _atom_site_fract_x
+ _atom_site_fract_y
+ _atom_site_fract_z
+ _atom_site_occupancy
+  As  As0  1  0.80272310  0.56343973  0.19663976  1.0
+  P  P1  1  0.80257895  0.08642964  0.44112671  1.0
+  Co  Co2  1  0.30260862  0.25672815  0.23778907  1.0
+  Co  Co3  1  0.30257125  0.15264983  0.63845201  1.0
+  Mn  Mn4  1  0.80265941  0.32203975  0.90094360  1.0
+  Co  Co5  1  0.30271066  0.67933606  0.00921563  1.0
+  Mn  Mn6  1  0.30276545  0.80236229  0.39748034  1.0
+  Co  Co7  1  0.80261621  0.95959506  0.13571440  1.0
+  Fe  Fe8  1  0.80267920  0.44078485  0.51107279  1.0
+  Mn  Mn9  1  0.80278890  0.85352886  0.74340767  1.0
+  As  As10  1  0.30271511  0.54490211  0.69687210  1.0
+  P  P11  1  0.30262209  0.04624386  0.95666621  1.0
