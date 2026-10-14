@@ -29,9 +29,12 @@ logger = logging.getLogger(__name__)
 
 
 def notify(message, title="MatterGen Pipeline - MP"):
+    _NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "")
+    if not _NTFY_TOPIC:
+        return
     try:
         requests.post(
-            "https://ntfy.sh/daniel_sheffield_claude",
+            f"https://ntfy.sh/{_NTFY_TOPIC}",
             data=message.encode("utf-8"),
             headers={"Title": title},
             timeout=10,

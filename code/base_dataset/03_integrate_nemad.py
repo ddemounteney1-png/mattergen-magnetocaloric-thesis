@@ -15,6 +15,7 @@ structures beyond MP/COD anyway, so the practical impact is nil.
 import pickle
 import logging
 from pathlib import Path
+import os
 
 import pandas as pd
 import requests
@@ -41,9 +42,12 @@ logger = logging.getLogger(__name__)
 
 
 def notify(message, title="MatterGen Pipeline - NEMAD"):
+    _NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "")
+    if not _NTFY_TOPIC:
+        return
     try:
         requests.post(
-            "https://ntfy.sh/daniel_sheffield_claude",
+            f"https://ntfy.sh/{_NTFY_TOPIC}",
             data=message.encode("utf-8"),
             headers={"Title": title},
             timeout=10,
