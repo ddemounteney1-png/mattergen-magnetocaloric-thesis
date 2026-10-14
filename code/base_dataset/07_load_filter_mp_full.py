@@ -10,6 +10,8 @@ Output: checkpoints/mp_full_structures.pkl  (only NEW IDs not already in Stage 2
 Flag:   logs/mp_full_complete.flag
 """
 
+import os
+import sys
 import pickle
 import logging
 import signal
@@ -37,14 +39,19 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-MP_API_KEY = "vS769TySiToHoKOoWAm8pHkmNbYQC1Qp"
+MP_API_KEY = os.environ.get("MP_API_KEY")
+if not MP_API_KEY:
+    sys.exit("Set the MP_API_KEY environment variable. Get a key at https://next-gen.materialsproject.org/api")
 BATCH_SIZE = 500
 
 
 def notify(message, title="MatterGen Pipeline - MP Full"):
+    _NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "")
+    if not _NTFY_TOPIC:
+        return
     try:
         requests.post(
-            "https://ntfy.sh/daniel_sheffield_claude",
+            f"https://ntfy.sh/{_NTFY_TOPIC}",
             data=message.encode("utf-8"),
             headers={"Title": title},
             timeout=10,

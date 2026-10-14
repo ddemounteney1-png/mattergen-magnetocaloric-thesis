@@ -8,6 +8,7 @@ import random
 import datetime
 from pathlib import Path
 from io import StringIO
+import os
 
 import pandas as pd
 import numpy as np
@@ -34,9 +35,12 @@ logger = logging.getLogger(__name__)
 
 
 def notify(message, title="MatterGen Pipeline - Export"):
+    _NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "")
+    if not _NTFY_TOPIC:
+        return
     try:
         requests.post(
-            "https://ntfy.sh/daniel_sheffield_claude",
+            f"https://ntfy.sh/{_NTFY_TOPIC}",
             data=message.encode("utf-8"),
             headers={"Title": title},
             timeout=10,
