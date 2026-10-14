@@ -1,0 +1,23 @@
+# Conda environment for the magnetocaloric data pipeline
+# (code/data_parsing/ and code/structure_pipeline/)
+#
+# Usage:
+#   conda env create -f envs/data_pipeline.yml
+#   conda activate data_pipeline
+name: data_pipeline
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - tqdm
+  - pip
+  - pip:
+      - pymatgen
+      - mp-api
+      - chgnet
+      - sqsgenerator

@@ -25,7 +25,6 @@ mattergen-magnetocaloric-thesis/
 ├── results/
 │   ├── metrics/               # All mattergen-evaluate JSON output (50 files, multiple runs)
 │   ├── loss_curves/           # Epoch-by-epoch training loss CSVs (4 runs)
-│   ├── generated_structures/  # (empty — generated CIFs live on HPC)
 │   └── figures/               # All 29 thesis figures as PNG + PDF
 ├── checkpoints/               # Checkpoint documentation (weights stored on HPC/Drive)
 └── docs/                      # Reference data: relaxation logs, repair reports, quality CSVs
@@ -47,14 +46,18 @@ mattergen-magnetocaloric-thesis/
 ### Environment
 
 ```bash
-# MatterGen venv (for training and generation)
-source ~/mattergen_project/mattergen/.venv/bin/activate
+# Data pipeline (code/data_parsing/ and code/structure_pipeline/)
+conda env create -f envs/data_pipeline.yml
+conda activate data_pipeline
 
-# Data pipeline env (pymatgen, matminer)
-source ~/Pre-mattergen_dataprocessing/matminer_env/bin/activate
+# Base dataset pipeline (code/base_dataset/)
+conda env create -f envs/base_dataset.yml
+conda activate base_dataset
 
-# Base dataset env (pymatgen, ASE)
-conda activate base_model_env
+# MatterGen training, generation, and figure scripts
+conda env create -f envs/mattergen.yml
+conda activate mattergen
+# Then install MatterGen per https://github.com/microsoft/mattergen
 ```
 
 ### Data pipeline (magnetocaloric)
@@ -86,7 +89,7 @@ Pre-training and fine-tuning were launched via SLURM (see `code/slurm_scripts/`)
 ### Generating figures
 
 ```bash
-cd Data_analysis/  # scripts expect relative data paths
+# Run from the repository root
 python code/analysis/fig11_convergence_comparison.py
 # etc. for fig01–fig29
 ```

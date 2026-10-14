@@ -1,4 +1,4 @@
-#!/home/daniel/anaconda3/envs/matgl_env/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 prepare_dataset.py (v2) — Magnetocaloric MatterGen Dataset Preparation
