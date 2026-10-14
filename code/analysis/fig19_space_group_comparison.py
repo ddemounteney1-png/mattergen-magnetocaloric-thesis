@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import ANALYSIS_WORK, FIGURES, METRICS  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -33,14 +38,14 @@ def sg_to_system(sg):
     return "Unknown"
 
 # ── Load training data ────────────────────────────────────────
-meta = pd.read_csv("Processing_data/full_metadata.csv",
+meta = pd.read_csv(f"{ANALYSIS_WORK}/Processing_data/full_metadata.csv",
                    usecols=["spacegroup_number", "crystal_system", "num_atoms"])
 sg_train  = pd.to_numeric(meta["spacegroup_number"], errors="coerce").dropna().astype(int)
 sys_train = meta["crystal_system"].value_counts()
 n_atoms_train = meta["num_atoms"].dropna().astype(int)
 
 # ── Load generated structure space groups + atom counts ───────
-with open("Metrics/base_gen_sg.pkl", "rb") as f:
+with open(f"{METRICS}/base_gen_sg.pkl", "rb") as f:
     sg_gen_counter = pickle.load(f)
 
 sg_gen_series = pd.Series(
@@ -48,7 +53,7 @@ sg_gen_series = pd.Series(
 )
 sys_gen = pd.Series([sg_to_system(sg) for sg in sg_gen_series]).value_counts()
 
-det = json.load(open("Metrics/01_base_unconditional/detailed_metrics.json"))
+det = json.load(open(f"{METRICS}/01_base_unconditional/detailed_metrics.json"))
 n_atoms_gen = pd.Series(
     [len(Structure.from_dict(e["structure"])) for e in det["entry"]]
 )
@@ -116,8 +121,8 @@ ax2.tick_params(labelsize=9)
 ax2.text(0.03, 0.97, "B", transform=ax2.transAxes, fontsize=13, fontweight="bold", va="top")
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig19_space_group_comparison.{ext}", dpi=300, bbox_inches="tight")
+    fig.savefig(f"{FIGURES}/fig19_space_group_comparison.{ext}", dpi=300, bbox_inches="tight")
 print(f"Saved fig19 — training ({n_train:,} structures) vs generated ({n_gen:,} structures)")
 plt.close()

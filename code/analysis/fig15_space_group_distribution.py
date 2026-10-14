@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, FINETUNE_DATA, METRICS  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -26,13 +31,13 @@ MODEL_LABELS = {
 }
 
 # ── Training data space groups ────────────────────────────────
-train = pd.read_csv("train_repaired.csv")
-val   = pd.read_csv("val_repaired.csv").dropna(subset=["n_atoms_primitive"])
+train = pd.read_csv(f"{FINETUNE_DATA}/train_repaired.csv")
+val   = pd.read_csv(f"{FINETUNE_DATA}/val_repaired.csv").dropna(subset=["n_atoms_primitive"])
 both  = pd.concat([train, val])
 sg_train = pd.to_numeric(both["space_group_number"], errors="coerce").dropna().astype(int)
 
 # ── Generated space groups (from parsed pkl) ──────────────────
-with open("Metrics/parsed_elem_sg.pkl", "rb") as f:
+with open(f"{METRICS}/parsed_elem_sg.pkl", "rb") as f:
     sg_counts = pickle.load(f)["sg_counts"]
 
 # ── Bin edges 1–230 ───────────────────────────────────────────
@@ -89,10 +94,10 @@ for idx, (model_key, model_label) in enumerate(MODEL_LABELS.items()):
 fig.suptitle("Space Group Distribution: Training Data vs Generated Structures",
              fontsize=12, y=1.02)
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf"):
-    fig.savefig(f"figures/fig15_space_group_distribution.{ext}", dpi=300, bbox_inches="tight")
-fig.savefig("figures/fig15_space_group_distribution.jpg", dpi=150, bbox_inches="tight",
+    fig.savefig(f"{FIGURES}/fig15_space_group_distribution.{ext}", dpi=300, bbox_inches="tight")
+fig.savefig(f"{FIGURES}/fig15_space_group_distribution.jpg", dpi=150, bbox_inches="tight",
             pil_kwargs={"quality": 90})
 print(f"Saved fig15 — training ({len(sg_train)} structures) vs 3 generated models")
 plt.close()

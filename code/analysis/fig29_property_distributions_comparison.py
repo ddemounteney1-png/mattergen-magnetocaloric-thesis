@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, FINETUNE_DATA, SUPERCONDUCTOR_DATA  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -9,9 +14,9 @@ import os
 # ============================================================
 # EDITABLE: Data paths
 # ============================================================
-MCE_TRAIN = "train_repaired.csv"
-MCE_VAL   = "val_repaired.csv"
-SC_TRAIN  = "/home/daniel/mattergen/datasets/superconductor/train.csv"
+MCE_TRAIN = f"{FINETUNE_DATA}/train_repaired.csv"
+MCE_VAL   = f"{FINETUNE_DATA}/val_repaired.csv"
+SC_TRAIN  = f"{SUPERCONDUCTOR_DATA}/train.csv"
 
 # ============================================================
 # EDITABLE: Conditioning targets (Median, +1σ, +2σ, +3σ, +4σ)
@@ -170,9 +175,9 @@ fig.suptitle(
     fontsize=10.5, y=0.99)
 
 plt.tight_layout(pad=1.2)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig29_property_distributions_comparison.{ext}",
+    fig.savefig(f"{FIGURES}/fig29_property_distributions_comparison.{ext}",
                 dpi=300, bbox_inches="tight")
 print(f"Saved fig29 — ΔS n={len(ds_vals)}, MCE T_C n={len(tc_vals)}, SC T_c n={len(sc_vals)}")
 plt.close()

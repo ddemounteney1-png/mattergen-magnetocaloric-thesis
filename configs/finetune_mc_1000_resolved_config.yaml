@@ -81,7 +81,7 @@ lightning_module:
     strict: true
 adapter:
   pretrained_name: null
-  model_path: /mnt/parscratch/users/eia21dd/mattergen_outputs/pretrain
+  model_path: ${oc.env:PRETRAINED_MODEL_PATH}
   load_epoch: last
   full_finetuning: true
   adapter:

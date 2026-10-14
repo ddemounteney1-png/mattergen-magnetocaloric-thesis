@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -120,9 +125,9 @@ line_handles[-1] = mlines.Line2D([], [], color="black", ls="-.", lw=1.8,
 fig.legend(handles=line_handles, fontsize=8.5, loc="lower center",
            ncol=4, bbox_to_anchor=(0.5, -0.01), framealpha=0.95)
 
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig23_joint_conditioning_components.{ext}",
+    fig.savefig(f"{FIGURES}/fig23_joint_conditioning_components.{ext}",
                 dpi=300, bbox_inches="tight")
 print("Saved fig23 — stable/unique/novel/SUN components for 3 joint conditioning strategies")
 plt.close()

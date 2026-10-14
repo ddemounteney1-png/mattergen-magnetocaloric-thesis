@@ -10,6 +10,12 @@ Output: checkpoints/mp_full_structures.pkl  (only NEW IDs not already in Stage 2
 Flag:   logs/mp_full_complete.flag
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import BASE_DATASET_WORK  # noqa: E402
+
+
 import os
 import sys
 import pickle
@@ -21,7 +27,7 @@ from pathlib import Path
 import requests
 from tqdm import tqdm
 
-BASE = Path("/home/daniel/base_model_dataset")
+BASE = BASE_DATASET_WORK
 CHECKPOINTS = BASE / "checkpoints"
 LOGS = BASE / "logs"
 

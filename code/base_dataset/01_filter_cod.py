@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Stage 1: Filter COD CIF files and extract valid structures."""
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import BASE_DATASET_WORK  # noqa: E402
+
+
 import os
 import re
 import shutil
@@ -14,7 +20,7 @@ import multiprocessing
 
 import requests
 
-BASE = Path("/home/daniel/base_model_dataset")
+BASE = BASE_DATASET_WORK
 COD_RAW = BASE / "COD_raw"
 COD_FILTERED = BASE / "COD_filtered"
 CHECKPOINTS = BASE / "checkpoints"

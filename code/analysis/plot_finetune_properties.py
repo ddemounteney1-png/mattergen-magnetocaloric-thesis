@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, FINETUNE_DATA  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import pandas as pd
@@ -6,9 +11,9 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib.lines import Line2D
 
-TRAIN_CSV = "/home/daniel/Data_analysis/train_repaired.csv"
-VAL_CSV   = "/home/daniel/Data_analysis/val_repaired.csv"
-OUT_DIR   = "/home/daniel/Data_analysis/figures"
+TRAIN_CSV = f"{FINETUNE_DATA}/train_repaired.csv"
+VAL_CSV   = f"{FINETUNE_DATA}/val_repaired.csv"
+OUT_DIR   = str(FIGURES)
 
 train = pd.read_csv(TRAIN_CSV)
 val   = pd.read_csv(VAL_CSV).dropna(subset=["n_atoms_primitive"])  # drop blank padding rows

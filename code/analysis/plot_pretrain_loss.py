@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, LOSS_CURVES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import pandas as pd
@@ -7,8 +12,8 @@ import matplotlib.ticker as ticker
 from scipy.ndimage import uniform_filter1d
 from scipy.stats import linregress
 
-CSV_PATH = "/home/daniel/Data_analysis/pretrain_losses.csv"
-OUT_DIR  = "/home/daniel/Data_analysis/figures"
+CSV_PATH = f"{LOSS_CURVES}/pretrain_losses.csv"
+OUT_DIR  = str(FIGURES)
 
 df = pd.read_csv(CSV_PATH)
 ep   = df["epoch"].values

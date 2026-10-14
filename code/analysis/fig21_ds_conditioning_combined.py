@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, FINETUNE_DATA  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -34,8 +39,8 @@ C_SIGMA  = "#D55E00"
 C_SHADE  = "#FFD580"
 
 # ── Load ΔS training distribution ────────────────────────────
-train = pd.read_csv("train_repaired.csv")
-val   = pd.read_csv("val_repaired.csv").dropna(subset=["n_atoms_primitive"])
+train = pd.read_csv(f"{FINETUNE_DATA}/train_repaired.csv")
+val   = pd.read_csv(f"{FINETUNE_DATA}/val_repaired.csv").dropna(subset=["n_atoms_primitive"])
 ds_vals = pd.to_numeric(
     pd.concat([train, val], ignore_index=True)["magnetocaloric_delta_s"],
     errors="coerce"
@@ -96,9 +101,9 @@ ax_bot.text(0.01, 0.95, "B", transform=ax_bot.transAxes,
 ax_bot.legend(fontsize=8, loc="upper right")
 
 fig.subplots_adjust(left=0.10, right=0.97, top=0.93, bottom=0.10)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig21_ds_conditioning_combined.{ext}",
+    fig.savefig(f"{FIGURES}/fig21_ds_conditioning_combined.{ext}",
                 dpi=300, bbox_inches="tight")
 print(f"Saved fig21 — combined ΔS conditioning + training distribution, n_ds={len(ds_vals)}")
 plt.close()

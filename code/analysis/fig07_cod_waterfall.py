@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -89,10 +94,10 @@ legend_items = [Patch(color=C_START,  label="Starting total"),
 ax.legend(handles=legend_items, fontsize=9, loc="lower right")
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf"):
-    fig.savefig(f"figures/fig07_cod_filtering_waterfall.{ext}", dpi=300, bbox_inches="tight")
-fig.savefig("figures/fig07_cod_filtering_waterfall.jpg", dpi=150, bbox_inches="tight",
+    fig.savefig(f"{FIGURES}/fig07_cod_filtering_waterfall.{ext}", dpi=300, bbox_inches="tight")
+fig.savefig(f"{FIGURES}/fig07_cod_filtering_waterfall.jpg", dpi=150, bbox_inches="tight",
             pil_kwargs={"quality": 90})
 print(f"Saved fig07 — {TOTAL_START:,} → 33,791 structures "
       f"({33791/TOTAL_START*100:.1f}% retained)")

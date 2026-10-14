@@ -42,6 +42,12 @@ DEPENDENCIES
     pip install matgl torch pymatgen pandas
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import CLEAN_PREPROCESSING_WORK  # noqa: E402
+
+
 import os, re, csv, logging, warnings
 
 import numpy as np
@@ -56,7 +62,7 @@ from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 warnings.filterwarnings("ignore")
 
 # ─────────────────────────── CONFIGURATION ────────────────────────────────
-BASE_DIR   = "/home/daniel/Clean_Preprocessing"
+BASE_DIR   = str(CLEAN_PREPROCESSING_WORK)
 CSV_IN     = os.path.join(BASE_DIR, "magnetocaloric_materials_with_cif.csv")
 CIF_DIR    = os.path.join(BASE_DIR, "cif_files")
 RESULTS_CSV= os.path.join(BASE_DIR, "relaxation_results.csv")

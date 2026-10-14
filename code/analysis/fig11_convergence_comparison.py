@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, LOSS_CURVES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -25,10 +30,10 @@ MILESTONES = {
 # EDITABLE: CSV file paths
 # ============================================================
 CSV_PATHS = {
-    "pretrain": "losses_csvs/pretrain_losses.csv",
-    "ds_only":  "losses_csvs/finetune_1000_losses.csv",
-    "joint":    "finetune_joint_losses.csv",
-    "supercon": "finetune_sc_losses.csv",
+    "pretrain": f"{LOSS_CURVES}/pretrain_losses.csv",
+    "ds_only":  f"{LOSS_CURVES}/finetune_1000_losses.csv",
+    "joint":    f"{LOSS_CURVES}/finetune_joint_losses.csv",
+    "supercon": f"{LOSS_CURVES}/finetune_sc_losses.csv",
 }
 
 # ============================================================
@@ -99,10 +104,10 @@ for idx, key in enumerate(keys):
             bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="#cccccc", alpha=0.85))
 
 plt.tight_layout(pad=1.5, rect=[0, 0, 1, 0.95])
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf"):
-    fig.savefig(f"figures/fig11_convergence_comparison.{ext}", dpi=300, bbox_inches="tight")
-fig.savefig("figures/fig11_convergence_comparison.jpg", dpi=150, bbox_inches="tight",
+    fig.savefig(f"{FIGURES}/fig11_convergence_comparison.{ext}", dpi=300, bbox_inches="tight")
+fig.savefig(f"{FIGURES}/fig11_convergence_comparison.jpg", dpi=150, bbox_inches="tight",
             pil_kwargs={"quality": 90})
 print("Saved fig11 — 4-panel convergence comparison")
 for key, ms in MILESTONES.items():

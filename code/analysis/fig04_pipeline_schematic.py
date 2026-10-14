@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -90,10 +95,10 @@ ax.set_title("Magnetocaloric Fine-Tuning Dataset Construction Pipeline",
              fontsize=12, pad=12, fontweight="bold")
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf"):
-    fig.savefig(f"figures/fig04_pipeline_schematic.{ext}", dpi=300, bbox_inches="tight")
-fig.savefig("figures/fig04_pipeline_schematic.jpg", dpi=150, bbox_inches="tight",
+    fig.savefig(f"{FIGURES}/fig04_pipeline_schematic.{ext}", dpi=300, bbox_inches="tight")
+fig.savefig(f"{FIGURES}/fig04_pipeline_schematic.jpg", dpi=150, bbox_inches="tight",
             pil_kwargs={"quality": 90})
 print(f"Saved fig04 — {len(STAGES)} pipeline stages")
 plt.close()

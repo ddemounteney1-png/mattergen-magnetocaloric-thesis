@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, FINETUNE_DATA, METRICS  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -17,8 +22,8 @@ C_TRAIN = "#0072B2"
 C_GEN   = "#E69F00"
 
 # ── Training data element frequencies ────────────────────────
-train = pd.read_csv("train_repaired.csv")
-val   = pd.read_csv("val_repaired.csv").dropna(subset=["n_atoms_primitive"])
+train = pd.read_csv(f"{FINETUNE_DATA}/train_repaired.csv")
+val   = pd.read_csv(f"{FINETUNE_DATA}/val_repaired.csv").dropna(subset=["n_atoms_primitive"])
 both  = pd.concat([train, val])
 
 train_elem: dict = {}
@@ -27,7 +32,7 @@ for mid in both["material_id"].dropna():
         train_elem[e] = train_elem.get(e, 0) + 1
 
 # ── Generated structure element frequencies (from parsed pkl) ─
-with open("Metrics/parsed_elem_sg.pkl", "rb") as f:
+with open(f"{METRICS}/parsed_elem_sg.pkl", "rb") as f:
     parsed = pickle.load(f)
 elem_counts = parsed["elem_counts"]
 
@@ -70,10 +75,10 @@ for ax, (model_key, model_label) in zip(axes, MODEL_LABELS.items()):
 
 fig.suptitle("Element Frequency: Training Data vs Generated Structures", fontsize=12, y=1.02)
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf"):
-    fig.savefig(f"figures/fig14_element_frequency.{ext}", dpi=300, bbox_inches="tight")
-fig.savefig("figures/fig14_element_frequency.jpg", dpi=150, bbox_inches="tight",
+    fig.savefig(f"{FIGURES}/fig14_element_frequency.{ext}", dpi=300, bbox_inches="tight")
+fig.savefig(f"{FIGURES}/fig14_element_frequency.jpg", dpi=150, bbox_inches="tight",
             pil_kwargs={"quality": 90})
 print(f"Saved fig14 — top {TOP_N} elements per model, training vs generated")
 plt.close()

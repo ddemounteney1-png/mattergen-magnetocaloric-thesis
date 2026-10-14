@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Stage 2: Load and filter Materials Project local cache."""
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import BASE_DATASET_WORK  # noqa: E402
+
+
 import json
 import os
 import pickle
@@ -9,7 +15,7 @@ from pathlib import Path
 
 import requests
 
-BASE = Path("/home/daniel/base_model_dataset")
+BASE = BASE_DATASET_WORK
 MP_CACHE = BASE / "MP_Local_Cache"
 CHECKPOINTS = BASE / "checkpoints"
 LOGS = BASE / "logs"

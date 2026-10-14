@@ -20,15 +20,21 @@ Output folder is created next to the script if it does not exist.
 A log file (extraction_log.txt) is written alongside the script.
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import PREPROCESSING_WORK  # noqa: E402
+
+
 import os
 import shutil
 import pandas as pd
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
-CSV_PATH    = "/home/daniel/Pre-mattergen_dataprocessing/cif_quality_report.csv"
-OUTPUT_DIR  = "/home/daniel/Pre-mattergen_dataprocessing/approved_cifs"
-LOG_PATH    = "/home/daniel/Pre-mattergen_dataprocessing/extraction_log.txt"
+CSV_PATH    = f"{PREPROCESSING_WORK}/cif_quality_report.csv"
+OUTPUT_DIR  = f"{PREPROCESSING_WORK}/approved_cifs"
+LOG_PATH    = f"{PREPROCESSING_WORK}/extraction_log.txt"
 
 # WARN rows to exclude (per manual review decisions)
 EXCLUDED_WARN = {

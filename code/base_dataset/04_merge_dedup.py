@@ -6,6 +6,12 @@ from MP/COD/Alexandria and would be removed by deduplication anyway.
 Priority order: MP > COD > Alexandria.
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import BASE_DATASET_WORK  # noqa: E402
+
+
 import pickle
 import logging
 from pathlib import Path
@@ -15,7 +21,7 @@ import os
 import requests
 from tqdm import tqdm
 
-BASE = Path("/home/daniel/base_model_dataset")
+BASE = BASE_DATASET_WORK
 CHECKPOINTS = BASE / "checkpoints"
 LOGS = BASE / "logs"
 

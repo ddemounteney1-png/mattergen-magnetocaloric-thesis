@@ -41,6 +41,12 @@ NOTE on "before" SG for disordered materials:
   CIF can give misleading results; the CSV value is authoritative.
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import PREPROCESSING_WORK  # noqa: E402
+
+
 import os, re, csv, sys, warnings, logging
 import numpy as np
 import pandas as pd
@@ -55,7 +61,7 @@ logging.basicConfig(level=logging.WARNING, format="%(levelname)s | %(message)s")
 
 # ─────────────────────────── PATHS ──────────────────────────────────────────
 
-BASE_DIR         = "/home/daniel/Pre-mattergen_dataprocessing"
+BASE_DIR         = str(PREPROCESSING_WORK)
 TARGET_CSV       = os.path.join(BASE_DIR, "magnetocaloric_materials.csv")
 WYCKOFF_CSV      = os.path.join(BASE_DIR, "magnetocaloric_materials_with_wyckoff.csv")
 COMBINED_CSV     = os.path.join(BASE_DIR, "magnetocaloric_materials_with_cif.csv")

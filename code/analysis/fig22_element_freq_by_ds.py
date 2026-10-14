@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, METRICS  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -11,11 +16,11 @@ from collections import Counter
 # EDITABLE: ΔS-only run paths and labels
 # ============================================================
 RUNS = [
-    ("5.3  (Median)", "Metrics/Delta_S_only/median_5.3_deltaS_only_detailed_metrics.json"),
-    ("18.9 (+1σ)",    "Metrics/Delta_S_only/deltaS_only_plus1sigma_18.9_detailed_metrics.json"),
-    ("32.5 (+2σ)",    "Metrics/Delta_S_only/plus2sigma_32.5_deltaS_only_detailed_metrics.json"),
-    ("46.1 (+3σ)",    "Metrics/Delta_S_only/deltaS_only_plus3sigma_46.1_detailed_metrics.json"),
-    ("59.7 (+4σ)",    "Metrics/Delta_S_only/Delta_S_only_plus4sigma_59.7_detailed_metrics.json"),
+    ("5.3  (Median)", f"{METRICS}/Delta_S_only/median_5.3_deltaS_only_detailed_metrics.json"),
+    ("18.9 (+1σ)",    f"{METRICS}/Delta_S_only/deltaS_only_plus1sigma_18.9_detailed_metrics.json"),
+    ("32.5 (+2σ)",    f"{METRICS}/Delta_S_only/plus2sigma_32.5_deltaS_only_detailed_metrics.json"),
+    ("46.1 (+3σ)",    f"{METRICS}/Delta_S_only/deltaS_only_plus3sigma_46.1_detailed_metrics.json"),
+    ("59.7 (+4σ)",    f"{METRICS}/Delta_S_only/Delta_S_only_plus4sigma_59.7_detailed_metrics.json"),
 ]
 
 # ============================================================
@@ -90,8 +95,8 @@ for i in range(0, len(top_elements), 2):
     ax.axvspan(i - 0.5, i + 0.5, color="#f0f0f0", alpha=0.5, zorder=0)
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig22_element_freq_by_ds.{ext}", dpi=300, bbox_inches="tight")
+    fig.savefig(f"{FIGURES}/fig22_element_freq_by_ds.{ext}", dpi=300, bbox_inches="tight")
 print(f"Saved fig22 — top {TOP_N} elements across {len(RUNS)} ΔS conditioning levels")
 plt.close()

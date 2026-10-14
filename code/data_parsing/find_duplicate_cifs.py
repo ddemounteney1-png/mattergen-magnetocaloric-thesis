@@ -17,13 +17,19 @@ Output:
     Prints recommended action: which CIF to keep (higher training value) and which to drop.
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import PREPROCESSING_WORK  # noqa: E402
+
+
 import csv
 import argparse
 import hashlib
 from pathlib import Path
 from collections import defaultdict
 
-BASE = Path("/home/daniel/Pre-mattergen_dataprocessing")
+BASE = PREPROCESSING_WORK
 
 
 def fast_hash(cif_path: Path) -> str:

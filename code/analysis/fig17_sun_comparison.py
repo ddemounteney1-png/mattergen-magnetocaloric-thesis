@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -102,8 +107,8 @@ ax.text(0.01, -0.10,
 
 plt.tight_layout(pad=1.5)
 fig.subplots_adjust(bottom=0.14)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig17_sun_comparison.{ext}", dpi=300, bbox_inches="tight")
+    fig.savefig(f"{FIGURES}/fig17_sun_comparison.{ext}", dpi=300, bbox_inches="tight")
 print("Saved fig17 — SUN comparison, all models")
 plt.close()

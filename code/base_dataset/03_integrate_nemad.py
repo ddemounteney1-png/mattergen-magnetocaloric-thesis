@@ -12,6 +12,12 @@ not save a rejected-structures file. Prior testing showed NEMAD adds zero new
 structures beyond MP/COD anyway, so the practical impact is nil.
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import BASE_DATASET_WORK  # noqa: E402
+
+
 import pickle
 import logging
 from pathlib import Path
@@ -21,7 +27,7 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 
-BASE = Path("/home/daniel/base_model_dataset")
+BASE = BASE_DATASET_WORK
 NEMAD_DIR = BASE / "NEMAD_csvs"
 CHECKPOINTS = BASE / "checkpoints"
 LOGS = BASE / "logs"

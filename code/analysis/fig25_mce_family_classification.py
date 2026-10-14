@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, METRICS  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -13,19 +18,19 @@ from collections import Counter
 # ============================================================
 LEVEL_RUNS = {
     "Median":      [
-        "Metrics/06_fixed_deltaS_TC_sweep/ds10p5_tc242/detailed_metrics.json",
-        "Metrics/fixed_Tc_delta_S_sweep/deltaS_5.3_TC_300_detailed_metrics.json",
-        "Metrics/07_simultaneous_escalation/ds5p3_tc242/detailed_metrics.json",
+        f"{METRICS}/06_fixed_deltaS_TC_sweep/ds10p5_tc242/detailed_metrics.json",
+        f"{METRICS}/fixed_Tc_delta_S_sweep/deltaS_5.3_TC_300_detailed_metrics.json",
+        f"{METRICS}/07_simultaneous_escalation/ds5p3_tc242/detailed_metrics.json",
     ],
     "+1$\\sigma$": [
-        "Metrics/06_fixed_deltaS_TC_sweep/ds10p5_tc335/detailed_metrics.json",
-        "Metrics/fixed_Tc_delta_S_sweep/deltaS_18.9_TC_300_detailed_metrics.json",
-        "Metrics/07_simultaneous_escalation/ds18p9_tc335/detailed_metrics.json",
+        f"{METRICS}/06_fixed_deltaS_TC_sweep/ds10p5_tc335/detailed_metrics.json",
+        f"{METRICS}/fixed_Tc_delta_S_sweep/deltaS_18.9_TC_300_detailed_metrics.json",
+        f"{METRICS}/07_simultaneous_escalation/ds18p9_tc335/detailed_metrics.json",
     ],
     "+2$\\sigma$": [
-        "Metrics/06_fixed_deltaS_TC_sweep/ds10p5_tc428/detailed_metrics.json",
-        "Metrics/fixed_Tc_delta_S_sweep/deltaS_32.5_TC_300_detailed_metrics.json",
-        "Metrics/07_simultaneous_escalation/ds32p5_tc428/detailed_metrics.json",
+        f"{METRICS}/06_fixed_deltaS_TC_sweep/ds10p5_tc428/detailed_metrics.json",
+        f"{METRICS}/fixed_Tc_delta_S_sweep/deltaS_32.5_TC_300_detailed_metrics.json",
+        f"{METRICS}/07_simultaneous_escalation/ds32p5_tc428/detailed_metrics.json",
     ],
 }
 
@@ -233,9 +238,9 @@ pie_handles = [
 fig.legend(handles=pie_handles, fontsize=8.5, loc="lower center",
            ncol=2, bbox_to_anchor=(0.5, 0.0), framealpha=0.95)
 
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig25_mce_family_classification.{ext}",
+    fig.savefig(f"{FIGURES}/fig25_mce_family_classification.{ext}",
                 dpi=300, bbox_inches="tight")
 print("\nSaved fig25 — MCE family classification stacked bar + novelty pie charts")
 plt.close()

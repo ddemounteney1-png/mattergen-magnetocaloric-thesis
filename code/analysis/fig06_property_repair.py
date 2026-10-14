@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import ANALYSIS_WORK, FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -21,8 +26,8 @@ C_REFLINE = "#222222"
 
 # ── Load repair reports (train + val) ────────────────────────
 both = pd.concat([
-    pd.read_csv("Processing_data/train_repair_report.csv"),
-    pd.read_csv("Processing_data/val_repair_report.csv"),
+    pd.read_csv(f"{ANALYSIS_WORK}/Processing_data/train_repair_report.csv"),
+    pd.read_csv(f"{ANALYSIS_WORK}/Processing_data/val_repair_report.csv"),
 ])
 df = both.dropna(subset=["old_delta_s", "new_delta_s"]).copy()
 df["changed"] = df["old_delta_s"] != df["new_delta_s"]
@@ -81,10 +86,10 @@ ax2.legend(fontsize=8, loc="lower right")
 ax2.text(0.04, 0.97, "B", transform=ax2.transAxes, fontsize=13, fontweight="bold", va="top")
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf"):
-    fig.savefig(f"figures/fig06_property_repair.{ext}", dpi=300, bbox_inches="tight")
-fig.savefig("figures/fig06_property_repair.jpg", dpi=150, bbox_inches="tight",
+    fig.savefig(f"{FIGURES}/fig06_property_repair.{ext}", dpi=300, bbox_inches="tight")
+fig.savefig(f"{FIGURES}/fig06_property_repair.jpg", dpi=150, bbox_inches="tight",
             pil_kwargs={"quality": 90})
 print(f"Saved fig06 — {n_total} structures, {n_changed} reassigned ({pct:.0f}%), {n_ok} unchanged")
 plt.close()

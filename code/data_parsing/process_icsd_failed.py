@@ -33,6 +33,12 @@ is SG 14 P1121/a (monoclinic). These new CIFs replace those — please confirm
 before copying.
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import PREPROCESSING_WORK  # noqa: E402
+
+
 import os, re, csv, warnings, logging
 import numpy as np
 from collections import defaultdict
@@ -52,7 +58,7 @@ log = logging.getLogger(__name__)
 
 # ─────────────────────────── PATHS ──────────────────────────────────────────
 
-BASE_DIR      = "/home/daniel/Pre-mattergen_dataprocessing"
+BASE_DIR      = str(PREPROCESSING_WORK)
 ONLINE_CIFS   = os.path.join(BASE_DIR, "Online Cifs")
 OUT_DIR       = os.path.join(BASE_DIR, "icsd_derived_cifs")
 LOG_CSV       = os.path.join(OUT_DIR, "icsd_recovery_log.csv")

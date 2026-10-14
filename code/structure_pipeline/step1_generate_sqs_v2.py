@@ -53,6 +53,12 @@ DEPENDENCIES
     pip install pymatgen pandas
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import PREPROCESSING_WORK  # noqa: E402
+
+
 import os, re, csv, ast, logging, warnings
 from collections import Counter
 
@@ -70,7 +76,7 @@ from pymatgen.transformations.advanced_transformations import (
 warnings.filterwarnings("ignore")
 
 # ─────────────────────────── CONFIGURATION ────────────────────────────────
-BASE_DIR      = "/home/daniel/Pre-mattergen_dataprocessing"
+BASE_DIR      = str(PREPROCESSING_WORK)
 CSV_IN        = os.path.join(BASE_DIR, "magnetocaloric_materials_with_wyckoff.csv")
 CIF_DIR       = os.path.join(BASE_DIR, "cif_files")
 CSV_OUT       = os.path.join(BASE_DIR, "magnetocaloric_materials_with_cif.csv")

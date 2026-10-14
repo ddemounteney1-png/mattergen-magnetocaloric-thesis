@@ -24,3 +24,10 @@ venv/
 # Local output folders
 output/
 logs/
+
+# Pipeline working folders (see code/project_paths.py)
+work/
+
+# Extra formats the figure scripts also write (the committed figures are PNG + PDF)
+results/figures/*.jpg
+results/figures/*.svg

@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import DOCS, FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -30,7 +35,7 @@ C_THRESHOLD = "#D55E00"
 # ============================================================
 # Load data
 # ============================================================
-cq = pd.read_csv("Processing_data/cif_quality_report.csv")
+cq = pd.read_csv(f"{DOCS}/cif_quality_report.csv")
 before = pd.to_numeric(cq["before_stoich_err_pct"], errors="coerce").dropna()
 after  = pd.to_numeric(cq["after_stoich_err_pct"],  errors="coerce").dropna()
 
@@ -65,10 +70,10 @@ for ax, data, label, color in [
 
 fig.suptitle(TITLE, fontsize=12, y=1.02)
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf"):
-    fig.savefig(f"figures/fig03_stoichiometry_errors.{ext}", dpi=300, bbox_inches="tight")
-fig.savefig("figures/fig03_stoichiometry_errors.jpg", dpi=150, bbox_inches="tight",
+    fig.savefig(f"{FIGURES}/fig03_stoichiometry_errors.{ext}", dpi=300, bbox_inches="tight")
+fig.savefig(f"{FIGURES}/fig03_stoichiometry_errors.jpg", dpi=150, bbox_inches="tight",
             pil_kwargs={"quality": 90})
 print(f"Saved fig03 — before n={len(before)}, after n={len(after)}, "
       f"above 5% threshold: {(after > 5).sum()}")
