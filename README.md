@@ -25,7 +25,6 @@ mattergen-magnetocaloric-thesis/
 ├── results/
 │   ├── metrics/               # All mattergen-evaluate JSON output (50 files, multiple runs)
 │   ├── loss_curves/           # Epoch-by-epoch training loss CSVs (4 runs)
-│   ├── generated_structures/  # (empty — generated CIFs live on HPC)
 │   └── figures/               # All 29 thesis figures as PNG + PDF
 ├── checkpoints/               # Checkpoint documentation (weights stored on HPC/Drive)
 └── docs/                      # Reference data: relaxation logs, repair reports, quality CSVs
@@ -86,7 +85,7 @@ Pre-training and fine-tuning were launched via SLURM (see `code/slurm_scripts/`)
 ### Generating figures
 
 ```bash
-cd Data_analysis/  # scripts expect relative data paths
+# Run from the repository root
 python code/analysis/fig11_convergence_comparison.py
 # etc. for fig01–fig29
 ```
