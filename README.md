@@ -1,105 +1,89 @@
-# Training MatterGen for Magnetocaloric Crystal Structure Generation
+# MatterGen for magnetocaloric materials
 
-This repository contains the full code, data pipeline, training configurations, evaluation metrics, and thesis figures for a masters project that adapts Microsoft's MatterGen generative diffusion model to conditionally generate magnetocaloric crystal structures. The work trains a base model from scratch on a custom 274,602-structure dataset assembled from Materials Project, the Crystallography Open Database (COD), and Alexandria, then fine-tunes the model to condition on the magnetocaloric entropy change (ΔS) and Curie temperature (T_C) of target materials. A parallel superconductor fine-tune on 1,088 structures validates the transfer-learning pipeline. All training ran on the University of Sheffield Stanage HPC cluster (4× NVIDIA A100 GPUs for pre-training; 1× A100 for fine-tuning).
+[![tests](https://github.com/ddemounteney1-png/mattergen-magnetocaloric-thesis/actions/workflows/tests.yml/badge.svg)](https://github.com/ddemounteney1-png/mattergen-magnetocaloric-thesis/actions/workflows/tests.yml)
 
-## Repository Structure
+Code, data and results for my MEng thesis (University of Sheffield, 2026). I adapted Microsoft's [MatterGen](https://github.com/microsoft/mattergen) diffusion model to generate new crystal structures for magnetocaloric refrigeration, conditioned on the magnetic entropy change (ΔS) and Curie temperature (T<sub>C</sub>) of the material I want.
 
-```
-mattergen-magnetocaloric-thesis/
-├── code/
-│   ├── data_parsing/          # Magnetocaloric CIF pipeline (v14 final) + utilities
-│   ├── structure_pipeline/    # SQS ordering, CHGNet relaxation, dataset preparation
-│   ├── base_dataset/          # 8-stage pipeline to build 274k-structure base dataset
-│   ├── analysis/              # Figure generation scripts (fig01–fig29) + loss parsers
-│   └── slurm_scripts/         # SLURM .sbatch files for HPC training runs
-├── data/
-│   ├── source/                # Franco et al. magnetocaloric source CSV + pipeline logs
-│   ├── finetune/              # train_repaired.csv + val_repaired.csv (315 structures)
-│   ├── superconductor/        # Superconductor train/val CSVs (1,088 structures)
-│   └── base_metadata/         # Metadata-only views of base training splits (no CIF strings)
-├── configs/
-│   ├── property_embeddings/   # YAML configs for ΔS, T_C, and field property embeddings
-│   ├── pretrain_resolved_config.yaml
-│   ├── finetune_mc_1000_resolved_config.yaml
-│   └── finetune_sc_resolved_config.yaml
-├── results/
-│   ├── metrics/               # All mattergen-evaluate JSON output (50 files, multiple runs)
-│   ├── loss_curves/           # Epoch-by-epoch training loss CSVs (4 runs)
-│   └── figures/               # All 29 thesis figures as PNG + PDF
-├── checkpoints/               # Checkpoint documentation (weights stored on HPC/Drive)
-└── docs/                      # Reference data: relaxation logs, repair reports, quality CSVs
-```
+## Results
 
-## Key Numbers
+- **A base model trained from scratch** on 274,602 structures I assembled from Materials Project, COD and Alexandria reaches **23.1% stable-unique-novel (S.U.N.)** structures, against 25.8% for MatterGen trained on MP-20. My model is scored with the newer TRI2024 convex-hull correction, so the comparison is indicative rather than exact.
+- **Fine-tuned on only 315 labelled magnetocaloric structures** (284 train / 31 validation), the model stays stable when asked for ΔS four standard deviations above the training mean, and shifts its chemistry towards known magnetocaloric elements (In, Gd, Er) as the ΔS target rises.
+- **Four rare-earth-free candidates.** The lead, Si₂Fe₃Co, sits 0.011 eV/atom above the convex hull.
+- **A 1,088-structure superconductor fine-tune** (1,000 train / 88 validation) checks that the transfer-learning pipeline works on a second property.
 
-| Item | Count |
-|------|-------|
-| Base model training structures | 274,602 |
-| Magnetocaloric fine-tune structures | 315 (284 train / 31 val) |
-| Superconductor fine-tune structures | 1,088 (1,000 train / 88 val) |
-| Source magnetocaloric compositions (Franco et al.) | 409 unique |
-| Thesis figures generated | 29 |
-| Evaluation metric runs (JSON files) | 50 |
+![S.U.N. comparison with published generative models](results/figures/fig17_sun_comparison.png)
 
-## Reproduction Instructions
-
-### Environment
+## Quickstart
 
 ```bash
-# Data pipeline (code/data_parsing/ and code/structure_pipeline/)
-conda env create -f envs/data_pipeline.yml
-conda activate data_pipeline
+git clone https://github.com/ddemounteney1-png/mattergen-magnetocaloric-thesis.git
+cd mattergen-magnetocaloric-thesis
+git lfs pull                      # CSV and pickle files are stored with Git LFS
 
-# Base dataset pipeline (code/base_dataset/)
-conda env create -f envs/base_dataset.yml
-conda activate base_dataset
+# Run the tests
+pip install -r requirements-test.txt
+pytest
 
-# MatterGen training, generation, and figure scripts
-conda env create -f envs/mattergen.yml
-conda activate mattergen
-# Then install MatterGen per https://github.com/microsoft/mattergen
+# Regenerate a thesis figure from the committed results (written to results/figures/)
+python code/analysis/fig17_sun_comparison.py
 ```
 
-### Data pipeline (magnetocaloric)
+To run the data pipelines, create the matching environment from `envs/` and set your Materials Project API key (get one at [materialsproject.org](https://next-gen.materialsproject.org/api)):
 
 ```bash
-# 1. Build ordered CIFs from Materials Project prototypes
+conda env create -f envs/data_pipeline.yml && conda activate data_pipeline
+export MP_API_KEY=your-key-here   # or copy .env.example to .env and fill it in
 python code/data_parsing/magnetocaloric_wyckoff_pipeline_v14.py
-
-# 2. SQS ordering for disordered structures
-python code/structure_pipeline/step1_generate_sqs_v2.py
-
-# 3. CHGNet relaxation + dataset export
-python code/structure_pipeline/prepare_dataset.py
 ```
 
-### Base model dataset
+The pipelines write their intermediate files to `work/` (ignored by git). `code/project_paths.py` lists every folder and the environment variable that moves it.
 
-```bash
-# Run stages 01–08 in sequence (see code/base_dataset/)
-python code/base_dataset/01_filter_cod.py --workers 7
-python code/base_dataset/02_load_filter_mp.py
-# ... through 08_final_merge.py
+## How it works
+
+![Dataset construction pipeline](results/figures/fig04_pipeline_schematic.png)
+
+1. **Base dataset** (`code/base_dataset/`, stages 01–08). Pull structures from COD, Materials Project and Alexandria; drop partial occupancy, structures over 51 atoms and organics; annotate with NEMAD property labels; deduplicate with pymatgen's StructureMatcher (priority MP > COD > Alexandria); export a stratified 80/10/10 split in MatterGen's format.
+2. **Magnetocaloric dataset** (`code/data_parsing/`, `code/structure_pipeline/`). Turn 409 literature compositions (Franco et al.) into crystal structures from Materials Project prototypes, order disordered alloys with special quasirandom structures, relax with CHGNet, and attach ΔS, T<sub>C</sub> and field labels.
+3. **Training** (`configs/`). Pre-train the base model on 4× A100, then fine-tune property adapters on 1× A100 on Sheffield's Stanage cluster. The resolved Hydra configs record every hyperparameter.
+4. **Evaluation and figures** (`code/analysis/`, `results/`). `mattergen-evaluate` output for every generation run is in `results/metrics/`, loss curves in `results/loss_curves/`, and each thesis figure has a script named after it.
+
+## Repository structure
+
+```
+code/
+  base_dataset/        8-stage pipeline for the 274,602-structure base dataset
+  data_parsing/        magnetocaloric composition-to-structure pipeline
+  structure_pipeline/  SQS ordering, CHGNet relaxation, dataset export
+  analysis/            one script per thesis figure (fig01–fig29) + loss-log parsers
+  slurm_scripts/       HPC job scripts (to be added)
+  project_paths.py     every folder the scripts read or write
+configs/               resolved Hydra configs and property-embedding definitions
+data/                  source, fine-tuning, superconductor and base-dataset metadata CSVs
+results/               metrics JSON, loss curves, figures (PNG + PDF)
+checkpoints/           where the model weights are kept (not committed)
+docs/                  pipeline reports: relaxation results, CIF quality, duplicates
+envs/                  conda environments for each stage
+tests/                 pytest suite, run on every push by GitHub Actions
 ```
 
-### Training on HPC
+## Reproducing training
 
-Pre-training and fine-tuning were launched via SLURM (see `code/slurm_scripts/`). Resolved Hydra configs are in `configs/`.
+Training ran on Sheffield's Stanage HPC with SLURM. The configs in `configs/` are the resolved versions of what ran. Fine-tuning reads the pre-trained model from `$PRETRAINED_MODEL_PATH`; see `configs/README.md`. The checkpoints are several GB each and are not in the repository; `checkpoints/README.md` describes each one.
 
-### Generating figures
+## Data notes
 
-```bash
-# Run from the repository root
-python code/analysis/fig11_convergence_comparison.py
-# etc. for fig01–fig29
-```
+- Structures come from [Materials Project](https://next-gen.materialsproject.org), the [Crystallography Open Database](https://www.crystallography.net/cod/), [Alexandria](https://alexandria.icams.rub.de) and NEMAD property labels; magnetocaloric properties come from the review by Franco et al. Each source has its own terms of use.
+- CSV and pickle files are stored with Git LFS, so they won't preview on GitHub. Run `git lfs pull` after cloning.
 
-## Checkpoints
+## Known limitations
 
-Model weights are stored on Stanage HPC and Google Drive (not in this repo due to size). See `checkpoints/README.md` for details.
+- 315 labelled structures is far below the dataset size MatterGen recommends for fine-tuning.
+- The model is not conditioned on applied magnetic field, which ΔS depends on.
+- My stability numbers use the TRI2024 hull correction and the published baselines use MP2020, so S.U.N. comparisons are approximate.
+- The SLURM scripts and the joint ΔS + T<sub>C</sub> fine-tune config are still to be added.
 
-## Author
+## Citation and licence
 
-**Daniel De Mounteney**
-University of Sheffield — MEng General Engineering, 2026
-Supervisor: Prof Nicola Morley
+If you use this work, please cite it using `CITATION.cff`. The code is released under the MIT licence (see `LICENSE`). MatterGen itself is © Microsoft and MIT-licensed.
+
+**Daniel de Mounteney**, MEng General Engineering, University of Sheffield, 2026. Supervisor: Prof Nicola Morley.
