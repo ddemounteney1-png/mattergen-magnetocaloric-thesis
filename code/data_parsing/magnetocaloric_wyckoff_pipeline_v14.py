@@ -21,6 +21,7 @@ OUTPUT STRUCTURE:
 └── stoich_errors.txt       ← materials with >5% stoichiometry error
 """
 import os
+import sys
 import re
 import csv
 import logging
@@ -40,7 +41,9 @@ warnings.filterwarnings("ignore")
 # =============================================================================
 # CONFIGURATION
 # =============================================================================
-MP_API_KEY = "vS769TySiToHoKOoWAm8pHkmNbYQC1Qp"
+MP_API_KEY = os.environ.get("MP_API_KEY")
+if not MP_API_KEY:
+    sys.exit("Set the MP_API_KEY environment variable. Get a key at https://next-gen.materialsproject.org/api")
 BASE_DIR = "/home/daniel/Pre-mattergen_dataprocessing"
 CSV_INPUT  = os.path.join(BASE_DIR, "magnetocaloric_materials.csv")
 CSV_OUTPUT = os.path.join(BASE_DIR, "magnetocaloric_materials_with_wyckoff.csv")
