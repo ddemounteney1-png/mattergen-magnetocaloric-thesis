@@ -1,0 +1,20 @@
+# Conda environment for the base dataset pipeline
+# (code/base_dataset/ stages 01-08)
+#
+# Usage:
+#   conda env create -f envs/base_dataset.yml
+#   conda activate base_dataset
+name: base_dataset
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - tqdm
+  - requests
+  - pip
+  - pip:
+      - pymatgen
+      - mp-api

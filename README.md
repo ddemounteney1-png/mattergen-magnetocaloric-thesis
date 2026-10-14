@@ -46,14 +46,18 @@ mattergen-magnetocaloric-thesis/
 ### Environment
 
 ```bash
-# MatterGen venv (for training and generation)
-source ~/mattergen_project/mattergen/.venv/bin/activate
+# Data pipeline (code/data_parsing/ and code/structure_pipeline/)
+conda env create -f envs/data_pipeline.yml
+conda activate data_pipeline
 
-# Data pipeline env (pymatgen, matminer)
-source ~/Pre-mattergen_dataprocessing/matminer_env/bin/activate
+# Base dataset pipeline (code/base_dataset/)
+conda env create -f envs/base_dataset.yml
+conda activate base_dataset
 
-# Base dataset env (pymatgen, ASE)
-conda activate base_model_env
+# MatterGen training, generation, and figure scripts
+conda env create -f envs/mattergen.yml
+conda activate mattergen
+# Then install MatterGen per https://github.com/microsoft/mattergen
 ```
 
 ### Data pipeline (magnetocaloric)

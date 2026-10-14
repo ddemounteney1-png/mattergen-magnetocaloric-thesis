@@ -1,0 +1,27 @@
+# Conda environment for MatterGen training and generation
+#
+# MatterGen itself should be installed following the upstream instructions:
+#   https://github.com/microsoft/mattergen
+#
+# This file covers the additional dependencies needed for
+# analysis and figure generation (code/analysis/).
+#
+# Usage:
+#   conda env create -f envs/mattergen.yml
+#   conda activate mattergen
+#   # Then install MatterGen per its README
+name: mattergen
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - tqdm
+  - pip
+  - pip:
+      - pymatgen
+      - ase
