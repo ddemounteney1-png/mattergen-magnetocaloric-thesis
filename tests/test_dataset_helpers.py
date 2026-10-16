@@ -57,7 +57,14 @@ def test_parse_target_formula_handles_decimal_p_and_spaces():
     assert err is None and comp == Composition("Gd5Si2Ge2")
 
 
-def test_parse_target_formula_reports_errors_instead_of_raising():
-    pytest.importorskip("pymatgen")
-    comp, err = parse_target_formula("Qq2Zz3_x.cif")
-    assert comp is None and err
+def test_parse_target_formula_reports_errors_instead_of_raising(monkeypatch):
+    pymatgen_core = pytest.importorskip("pymatgen.core")
+
+    def unparseable(formula):
+        raise ValueError(f"cannot parse {formula}")
+
+    # pymatgen accepts unknown symbols as dummy species, so simulate a parse failure directly
+    monkeypatch.setattr(pymatgen_core, "Composition", unparseable)
+    comp, err = parse_target_formula("Fe2Si_x.cif")
+    assert comp is None
+    assert "cannot parse Fe2Si" in err

@@ -12,7 +12,15 @@ def quality():
 def test_target_formula_fractions_sum_to_one(quality):
     fractions = quality.parse_target_formula("Ni50Mn35In15")
     assert fractions == pytest.approx({"Ni": 0.50, "Mn": 0.35, "In": 0.15})
-    assert quality.parse_target_formula("Qq2Zz3") == {}
+
+
+def test_unparseable_target_formula_returns_empty(quality, monkeypatch):
+    def unparseable(formula):
+        raise ValueError(f"cannot parse {formula}")
+
+    # pymatgen accepts unknown symbols as dummy species, so simulate a parse failure directly
+    monkeypatch.setattr(quality, "Composition", unparseable)
+    assert quality.parse_target_formula("Fe2Si") == {}
 
 
 def test_stoich_deviation_is_largest_per_element_error_in_percent(quality):
