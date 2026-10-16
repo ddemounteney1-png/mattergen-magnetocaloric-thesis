@@ -1,0 +1,9 @@
+# Dependencies for the test suite and CI (the full pipelines use envs/*.yml)
+pytest>=8
+numpy
+pandas
+scipy
+matplotlib
+requests
+tqdm
+pymatgen
