@@ -4,6 +4,12 @@ Franco Dataset Validation & Summary Report
 Verifies dataset integrity and provides quick statistics for Mattergen fine-tuning
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import MATTERGEN_DIR, PREPROCESSING_WORK  # noqa: E402
+
+
 import os
 import sys
 from pathlib import Path
@@ -15,15 +21,15 @@ from pymatgen.core import Structure
 def check_files_exist() -> Dict[str, bool]:
     """Check if all expected files exist."""
     checks = {
-        'CIF Directory': Path('/home/daniel/mattergen/datasets/mce_finetuning/cifs/').exists(),
-        'Metadata CSV': Path('/home/daniel/mattergen/datasets/mce_finetuning/franco_dataset.csv').exists(),
-        'Phase 2 Log': Path('/home/daniel/Pre-mattergen_dataprocessing/phase2_franco.log').exists(),
+        'CIF Directory': (MATTERGEN_DIR / 'datasets/mce_finetuning/cifs').exists(),
+        'Metadata CSV': (MATTERGEN_DIR / 'datasets/mce_finetuning/franco_dataset.csv').exists(),
+        'Phase 2 Log': (PREPROCESSING_WORK / 'phase2_franco.log').exists(),
     }
     return checks
 
 def load_metadata() -> pd.DataFrame:
     """Load Franco dataset metadata."""
-    csv_path = '/home/daniel/mattergen/datasets/mce_finetuning/franco_dataset.csv'
+    csv_path = str(MATTERGEN_DIR / 'datasets/mce_finetuning/franco_dataset.csv')
     return pd.read_csv(csv_path)
 
 def validate_cif_files(cif_dir: Path, limit: int = 10) -> Dict:
@@ -120,7 +126,7 @@ def generate_report():
     # 5. Structure validation
     print("\n5. STRUCTURE VALIDATION (sample of 10)")
     print("-" * 80)
-    cif_dir = Path('/home/daniel/mattergen/datasets/mce_finetuning/cifs/')
+    cif_dir = (MATTERGEN_DIR / 'datasets/mce_finetuning/cifs')
     validation = validate_cif_files(cif_dir, limit=10)
     print(f"  Total CIF files:       {validation['total_cif_files']}")
     print(f"  Valid structures:      {validation['valid_structures']}/{validation['sample_validated']}")
@@ -179,9 +185,9 @@ def generate_report():
     # 9. File locations
     print("\n9. DATASET LOCATIONS")
     print("-" * 80)
-    print(f"  CIF files:        /home/daniel/mattergen/datasets/mce_finetuning/cifs/")
-    print(f"  Metadata CSV:     /home/daniel/mattergen/datasets/mce_finetuning/franco_dataset.csv")
-    print(f"  Documentation:    /home/daniel/Pre-mattergen_dataprocessing/FRANCO_DATASET_GUIDE.md")
+    print(f"  CIF files:        {MATTERGEN_DIR}/datasets/mce_finetuning/cifs/")
+    print(f"  Metadata CSV:     {MATTERGEN_DIR}/datasets/mce_finetuning/franco_dataset.csv")
+    print(f"  Documentation:    {PREPROCESSING_WORK}/FRANCO_DATASET_GUIDE.md")
     
     # 10. Next steps
     print("\n10. READY FOR MATTERGEN FINE-TUNING")
@@ -191,8 +197,8 @@ def generate_report():
     print("  from pathlib import Path")
     print("  import pandas as pd")
     print("  ")
-    print("  dataset_path = Path('/home/daniel/mattergen/datasets/mce_finetuning/cifs/')")
-    print("  metadata = pd.read_csv('/home/daniel/mattergen/datasets/mce_finetuning/franco_dataset.csv')")
+    print(f"  dataset_path = Path('{MATTERGEN_DIR}/datasets/mce_finetuning/cifs/')")
+    print(f"  metadata = pd.read_csv('{MATTERGEN_DIR}/datasets/mce_finetuning/franco_dataset.csv')")
     print("  ")
     print("  structures = [Structure.from_file(f) for f in sorted(dataset_path.glob('*.cif'))]")
     

@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, FINETUNE_DATA  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -90,8 +95,8 @@ X_MAX = 650   # K
 # ============================================================
 # Load data
 # ============================================================
-train = pd.read_csv("train_repaired.csv")
-val   = pd.read_csv("val_repaired.csv").dropna(subset=["n_atoms_primitive"])
+train = pd.read_csv(f"{FINETUNE_DATA}/train_repaired.csv")
+val   = pd.read_csv(f"{FINETUNE_DATA}/val_repaired.csv").dropna(subset=["n_atoms_primitive"])
 both  = pd.concat([train, val], ignore_index=True)
 both["ds"]    = pd.to_numeric(both["magnetocaloric_delta_s"],    errors="coerce")
 both["tc"]    = pd.to_numeric(both["magnetocaloric_curie_temp"], errors="coerce")
@@ -178,9 +183,9 @@ ax.set_ylim(0, Y_MAX)
 ax.tick_params(labelsize=10)
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig10_delta_s_vs_tc_scatter.{ext}", dpi=300, bbox_inches="tight")
+    fig.savefig(f"{FIGURES}/fig10_delta_s_vs_tc_scatter.{ext}", dpi=300, bbox_inches="tight")
 print(f"Saved fig10 — {len(plot_df)} structures, TC {plot_df['tc'].min():.0f}–{plot_df['tc'].max():.0f} K, "
       f"DS {plot_df['ds'].min():.1f}–{plot_df['ds'].max():.1f} J/kg/K, "
       f"x-axis extended to {X_MAX} K to show TC-only extrapolation targets")

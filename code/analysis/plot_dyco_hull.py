@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import ANALYSIS_WORK, FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -10,10 +15,10 @@ import csv, os
 from ase.io import read
 from ase.visualize.plot import plot_atoms
 
-DATA_CSV   = "/home/daniel/Data_analysis/convex_hull/dyco_hull_data.csv"
-STRUCT_DIR = "/home/daniel/Data_analysis/convex_hull/structures"
-IMG_DIR    = "/home/daniel/Data_analysis/convex_hull/structure_images"
-OUT_DIR    = "/home/daniel/Data_analysis/figures"
+DATA_CSV   = f"{ANALYSIS_WORK}/convex_hull/dyco_hull_data.csv"
+STRUCT_DIR = f"{ANALYSIS_WORK}/convex_hull/structures"
+IMG_DIR    = f"{ANALYSIS_WORK}/convex_hull/structure_images"
+OUT_DIR    = str(FIGURES)
 os.makedirs(IMG_DIR, exist_ok=True)
 
 # ── Load hull data ─────────────────────────────────────────────────────────

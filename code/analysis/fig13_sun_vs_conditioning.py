@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -92,10 +97,10 @@ ax2.text(0.04, 0.97, "B", transform=ax2.transAxes, fontsize=13, fontweight="bold
 
 fig.suptitle("Generation Quality vs Conditioning Level", fontsize=12, y=1.01)
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf"):
-    fig.savefig(f"figures/fig13_sun_vs_conditioning.{ext}", dpi=300, bbox_inches="tight")
-fig.savefig("figures/fig13_sun_vs_conditioning.jpg", dpi=150, bbox_inches="tight",
+    fig.savefig(f"{FIGURES}/fig13_sun_vs_conditioning.{ext}", dpi=300, bbox_inches="tight")
+fig.savefig(f"{FIGURES}/fig13_sun_vs_conditioning.jpg", dpi=150, bbox_inches="tight",
             pil_kwargs={"quality": 90})
 print("Saved fig13 — actual mattergen-evaluate data, 3 models × up to 5 conditioning levels")
 plt.close()

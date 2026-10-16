@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -116,8 +121,8 @@ ax.legend(handles=bar_handles + line_handles,
           title_fontsize=7.5)
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig28_tc_vs_sc_sun_comparison.{ext}", dpi=300, bbox_inches="tight")
+    fig.savefig(f"{FIGURES}/fig28_tc_vs_sc_sun_comparison.{ext}", dpi=300, bbox_inches="tight")
 print("Saved fig28 — TC-only vs SC conditioning SUN comparison")
 plt.close()

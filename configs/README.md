@@ -29,3 +29,9 @@ YAML files defining the property embedding architecture for each conditioning pr
 | `magnetocaloric_field.yaml` | `magnetocaloric_field` | Continuous scalar embedding for applied magnetic field (T). Present in dataset but not used as a conditioning property in these runs. |
 
 These YAML files follow the same schema as the upstream MatterGen property embeddings (e.g. `dft_band_gap.yaml`). To add a new conditioning property, create a matching YAML in this directory, add the property name to `PROPERTY_SOURCE_IDS` in `mattergen/common/utils/globals.py`, and reference it in the finetune config.
+
+---
+
+## Paths in the fine-tuning configs
+
+The fine-tuning configs load the pre-trained base model from `${oc.env:PRETRAINED_MODEL_PATH}`. Set that variable to the folder that holds the base-model checkpoint before launching a fine-tune, for example `export PRETRAINED_MODEL_PATH=/path/to/mattergen_outputs/pretrain`. Dataset caches already resolve through `${oc.env:PROJECT_ROOT}`, which MatterGen sets itself.

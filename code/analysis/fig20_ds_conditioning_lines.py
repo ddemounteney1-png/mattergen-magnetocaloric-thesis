@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -54,8 +59,8 @@ ax.tick_params(labelsize=10)
 ax.set_xticks(DS_VALUES)
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig20_ds_conditioning_lines.{ext}", dpi=300, bbox_inches="tight")
+    fig.savefig(f"{FIGURES}/fig20_ds_conditioning_lines.{ext}", dpi=300, bbox_inches="tight")
 print("Saved fig20 — stability/uniqueness/novelty vs ΔS conditioning (ΔS-only model)")
 plt.close()

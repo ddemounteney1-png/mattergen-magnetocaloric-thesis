@@ -1,10 +1,15 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import ANALYSIS_WORK, LOSS_CURVES  # noqa: E402
+
 import re
 import csv
 import os
 from datetime import date
 
-LOG_PATH = "/home/daniel/Data_analysis/.out_files/finetune_1000_epoch.out"
-OUT_CSV  = "/home/daniel/Data_analysis/finetune_1000_losses.csv"
+LOG_PATH = f"{ANALYSIS_WORK}/.out_files/finetune_1000_epoch.out"
+OUT_CSV  = f"{LOSS_CURVES}/finetune_1000_losses.csv"
 
 # Matches the FINAL entry per epoch: "Epoch N: 100%|..." with loss_train_epoch present
 # The 100%-complete entry that also has loss_train_epoch is the authoritative one.

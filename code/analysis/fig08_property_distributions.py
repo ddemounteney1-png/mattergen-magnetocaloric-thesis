@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, FINETUNE_DATA  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -48,8 +53,8 @@ C_SHADE  = "#FFD580"
 # ============================================================
 # Load data
 # ============================================================
-train = pd.read_csv("train_repaired.csv")
-val   = pd.read_csv("val_repaired.csv").dropna(subset=["n_atoms_primitive"])
+train = pd.read_csv(f"{FINETUNE_DATA}/train_repaired.csv")
+val   = pd.read_csv(f"{FINETUNE_DATA}/val_repaired.csv").dropna(subset=["n_atoms_primitive"])
 both  = pd.concat([train, val], ignore_index=True)
 
 ds_vals  = pd.to_numeric(both["magnetocaloric_delta_s"],    errors="coerce").dropna()
@@ -114,10 +119,10 @@ fig.legend(handles=[target_line, room_line, extrap_patch],
 
 fig.suptitle(SUPTITLE, fontsize=12, y=1.01)
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf"):
-    fig.savefig(f"figures/fig08_property_distributions.{ext}", dpi=300, bbox_inches="tight")
-fig.savefig("figures/fig08_property_distributions.jpg", dpi=150, bbox_inches="tight",
+    fig.savefig(f"{FIGURES}/fig08_property_distributions.{ext}", dpi=300, bbox_inches="tight")
+fig.savefig(f"{FIGURES}/fig08_property_distributions.jpg", dpi=150, bbox_inches="tight",
             pil_kwargs={"quality": 90})
 print(f"Saved fig08 — ΔS n={len(ds_vals)}, T_C n={len(tc_vals)}, H n={len(h_vals)}")
 plt.close()

@@ -13,13 +13,19 @@ FIX-7  Stoichiometry validation - added stoich_error tracking to output CSV
 FIX-8  Better fallback - direct MP search when prototype stoich error >10%
 
 OUTPUT STRUCTURE:
-/home/daniel/Clean_Preprocessing/
+$PREPROCESSING_DIR/ (see code/project_paths.py)
 ├── cif_files/              ← structures ≤50 atoms (MatterGen compatible)
 ├── cif_>50/                ← structures 51-60 atoms (need SQS expansion)
 ├── magnetocaloric_materials_with_wyckoff.csv
 ├── missing_materials.txt
 └── stoich_errors.txt       ← materials with >5% stoichiometry error
 """
+
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import PREPROCESSING_WORK, SOURCE_DATA  # noqa: E402
+
 import os
 import sys
 import re
@@ -44,8 +50,8 @@ warnings.filterwarnings("ignore")
 MP_API_KEY = os.environ.get("MP_API_KEY")
 if not MP_API_KEY:
     sys.exit("Set the MP_API_KEY environment variable. Get a key at https://next-gen.materialsproject.org/api")
-BASE_DIR = "/home/daniel/Pre-mattergen_dataprocessing"
-CSV_INPUT  = os.path.join(BASE_DIR, "magnetocaloric_materials.csv")
+BASE_DIR = str(PREPROCESSING_WORK)
+CSV_INPUT  = str(SOURCE_DATA / "magnetocaloric_materials.csv")  # committed input
 CSV_OUTPUT = os.path.join(BASE_DIR, "magnetocaloric_materials_with_wyckoff.csv")
 FAILED_CSV = os.path.join(BASE_DIR, "Failed_materials.csv")
 CLEAN_DIR  = os.path.join(BASE_DIR, "clean_cifs")

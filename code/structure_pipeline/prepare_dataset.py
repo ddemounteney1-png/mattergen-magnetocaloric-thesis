@@ -19,6 +19,12 @@ v2 fixes over v1:
   NEW    MANUALLY_RECOVERED post-loop (2 files force-added despite dedup)
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import CLEAN_PREPROCESSING_WORK, MATTERGEN_DIR  # noqa: E402
+
+
 import csv
 import math
 import os
@@ -39,8 +45,8 @@ from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 # ──────────────────────────────────────────────────────────────────────────────
 # Paths
 # ──────────────────────────────────────────────────────────────────────────────
-WORK_DIR         = Path("/home/daniel/Clean_Preprocessing")
-MATTERGEN_DIR    = Path("/home/daniel/mattergen")
+WORK_DIR         = CLEAN_PREPROCESSING_WORK
+MATTERGEN_DIR    = MATTERGEN_DIR
 CIF_SOURCE       = WORK_DIR / "cif_files"
 BEST_ATTEMPT_DIR = WORK_DIR / "best_attempt_cifs"
 RELAXED_DIR      = WORK_DIR / "relaxed_best_attempt_cifs"

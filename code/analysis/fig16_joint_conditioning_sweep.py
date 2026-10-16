@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -108,8 +113,8 @@ ax2b.legend(fontsize=7.5, loc="upper right", framealpha=0.92, title="── dash
 ax2.text(0.03, 0.97, "B", transform=ax2.transAxes, fontsize=13, fontweight="bold", va="top")
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig16_joint_conditioning_sweep.{ext}", dpi=300, bbox_inches="tight")
+    fig.savefig(f"{FIGURES}/fig16_joint_conditioning_sweep.{ext}", dpi=300, bbox_inches="tight")
 print("Saved fig16 — 3 joint conditioning strategies × 3 escalation steps")
 plt.close()

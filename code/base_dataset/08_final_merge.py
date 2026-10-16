@@ -10,6 +10,12 @@ Output: merged_dataset/train.csv, val.csv, test.csv, full_metadata.csv,
         combined_dataset.extxyz, final_report.txt
 """
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import BASE_DATASET_WORK  # noqa: E402
+
+
 import csv
 import gc
 import os
@@ -27,7 +33,7 @@ import numpy as np
 import requests
 from tqdm import tqdm
 
-BASE = Path("/home/daniel/base_model_dataset")
+BASE = BASE_DATASET_WORK
 CHECKPOINTS = BASE / "checkpoints"
 LOGS = BASE / "logs"
 OUTPUT = BASE / "merged_dataset"
@@ -722,7 +728,7 @@ def main():
 
 Date: {now}
 Environment: base_model_env conda env
-Working directory: /home/daniel/base_model_dataset/
+Working directory: {BASE}/
 
 --- DATASET SPLITS ---
   Training set:    {len(train)} structures (train.csv)

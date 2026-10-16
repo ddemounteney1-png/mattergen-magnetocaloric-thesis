@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import FIGURES, METRICS  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -13,19 +18,19 @@ import os
 # ============================================================
 LEVEL_RUNS = {
     "Median":   [
-        ("Fixed $\\Delta S$",  "Metrics/06_fixed_deltaS_TC_sweep/ds10p5_tc242/detailed_metrics.json"),
-        ("Fixed $T_C$",        "Metrics/fixed_Tc_delta_S_sweep/deltaS_5.3_TC_300_detailed_metrics.json"),
-        ("Simultaneous",       "Metrics/07_simultaneous_escalation/ds5p3_tc242/detailed_metrics.json"),
+        ("Fixed $\\Delta S$",  f"{METRICS}/06_fixed_deltaS_TC_sweep/ds10p5_tc242/detailed_metrics.json"),
+        ("Fixed $T_C$",        f"{METRICS}/fixed_Tc_delta_S_sweep/deltaS_5.3_TC_300_detailed_metrics.json"),
+        ("Simultaneous",       f"{METRICS}/07_simultaneous_escalation/ds5p3_tc242/detailed_metrics.json"),
     ],
     "+1$\\sigma$": [
-        ("Fixed $\\Delta S$",  "Metrics/06_fixed_deltaS_TC_sweep/ds10p5_tc335/detailed_metrics.json"),
-        ("Fixed $T_C$",        "Metrics/fixed_Tc_delta_S_sweep/deltaS_18.9_TC_300_detailed_metrics.json"),
-        ("Simultaneous",       "Metrics/07_simultaneous_escalation/ds18p9_tc335/detailed_metrics.json"),
+        ("Fixed $\\Delta S$",  f"{METRICS}/06_fixed_deltaS_TC_sweep/ds10p5_tc335/detailed_metrics.json"),
+        ("Fixed $T_C$",        f"{METRICS}/fixed_Tc_delta_S_sweep/deltaS_18.9_TC_300_detailed_metrics.json"),
+        ("Simultaneous",       f"{METRICS}/07_simultaneous_escalation/ds18p9_tc335/detailed_metrics.json"),
     ],
     "+2$\\sigma$": [
-        ("Fixed $\\Delta S$",  "Metrics/06_fixed_deltaS_TC_sweep/ds10p5_tc428/detailed_metrics.json"),
-        ("Fixed $T_C$",        "Metrics/fixed_Tc_delta_S_sweep/deltaS_32.5_TC_300_detailed_metrics.json"),
-        ("Simultaneous",       "Metrics/07_simultaneous_escalation/ds32p5_tc428/detailed_metrics.json"),
+        ("Fixed $\\Delta S$",  f"{METRICS}/06_fixed_deltaS_TC_sweep/ds10p5_tc428/detailed_metrics.json"),
+        ("Fixed $T_C$",        f"{METRICS}/fixed_Tc_delta_S_sweep/deltaS_32.5_TC_300_detailed_metrics.json"),
+        ("Simultaneous",       f"{METRICS}/07_simultaneous_escalation/ds32p5_tc428/detailed_metrics.json"),
     ],
 }
 
@@ -167,8 +172,8 @@ ax.set_xlim(all_positions[0] - 0.7, all_positions[-1] + 0.7)
 ax.tick_params(axis="y", labelsize=9)
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig24_ehull_violin.{ext}", dpi=300, bbox_inches="tight")
+    fig.savefig(f"{FIGURES}/fig24_ehull_violin.{ext}", dpi=300, bbox_inches="tight")
 print("Saved fig24 — E_hull violin plot, 9 runs (3 strategies × 3 conditioning levels)")
 plt.close()

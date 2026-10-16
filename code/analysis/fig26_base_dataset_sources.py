@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import ANALYSIS_WORK, FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -47,7 +52,7 @@ SOURCE_LABELS = {
 SLICE_ORDER = ["COD", "MP", "MP_Full", "OQMD", "Alexandria"]
 
 # ── Load source counts ────────────────────────────────────────
-df = pd.read_csv("Processing_data/full_metadata.csv",
+df = pd.read_csv(f"{ANALYSIS_WORK}/Processing_data/full_metadata.csv",
                  usecols=["source"], low_memory=False)
 counts = df["source"].value_counts()
 
@@ -105,9 +110,9 @@ ax.set_title(
     fontsize=11, pad=16)
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf", "svg"):
-    fig.savefig(f"figures/fig26_base_dataset_sources.{ext}",
+    fig.savefig(f"{FIGURES}/fig26_base_dataset_sources.{ext}",
                 dpi=300, bbox_inches="tight")
 print(f"Saved fig26 — {len(SLICE_ORDER)} sources, {total:,} total structures")
 print(f"  Bright (experimental): {', '.join(EXPERIMENTAL_SOURCES)} = {exp_total:,}")

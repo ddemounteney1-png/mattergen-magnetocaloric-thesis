@@ -1,9 +1,14 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import ANALYSIS_WORK, LOSS_CURVES  # noqa: E402
+
 import re
 import csv
 import os
 
-LOG_PATH = "/home/daniel/Data_analysis/.out_files/pretrain_4.out"
-OUT_CSV  = "/home/daniel/Data_analysis/pretrain_losses.csv"
+LOG_PATH = f"{ANALYSIS_WORK}/.out_files/pretrain_4.out"
+OUT_CSV  = f"{LOSS_CURVES}/pretrain_losses.csv"
 
 EPOCH_RE = re.compile(
     r'Epoch (\d+):\s+100%.*?'

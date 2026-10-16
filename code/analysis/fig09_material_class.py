@@ -1,3 +1,8 @@
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from project_paths import DOCS, FIGURES  # noqa: E402
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -39,7 +44,7 @@ C_EXCLUDED = "#AAAAAA"
 # ============================================================
 # Load data — count unique formulas per class
 # ============================================================
-rel = pd.read_csv("Processing_data/relaxation_results.csv")
+rel = pd.read_csv(f"{DOCS}/relaxation_results.csv")
 counts = (rel.dropna(subset=["material_class"])
              .drop_duplicates(subset=["material_formula"])
              .groupby("material_class")["material_formula"]
@@ -74,10 +79,10 @@ ax.tick_params(labelsize=9)
 ax.set_xlim(0, main["count"].max() * 1.20)
 
 plt.tight_layout(pad=1.5)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(FIGURES, exist_ok=True)
 for ext in ("png", "pdf"):
-    fig.savefig(f"figures/fig09_material_class_breakdown.{ext}", dpi=300, bbox_inches="tight")
-fig.savefig("figures/fig09_material_class_breakdown.jpg", dpi=150, bbox_inches="tight",
+    fig.savefig(f"{FIGURES}/fig09_material_class_breakdown.{ext}", dpi=300, bbox_inches="tight")
+fig.savefig(f"{FIGURES}/fig09_material_class_breakdown.jpg", dpi=150, bbox_inches="tight",
             pil_kwargs={"quality": 90})
 print(f"Saved fig09 — {len(main)} classes plotted, {excl_count} excluded")
 plt.close()
