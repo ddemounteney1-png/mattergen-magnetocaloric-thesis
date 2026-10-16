@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+type: software
+title: "Training MatterGen for magnetocaloric crystal structure generation"
+abstract: "Code, data and results for an MEng thesis adapting Microsoft's MatterGen diffusion model to generate magnetocaloric crystal structures conditioned on magnetic entropy change and Curie temperature."
+authors:
+  - family-names: "de Mounteney"
+    given-names: "Daniel"
+    affiliation: "University of Sheffield"
+date-released: "2026-05-20"
+repository-code: "https://github.com/ddemounteney1-png/mattergen-magnetocaloric-thesis"
+license: MIT
+keywords:
+  - generative models
+  - diffusion models
+  - materials discovery
+  - magnetocaloric materials
+  - MatterGen
